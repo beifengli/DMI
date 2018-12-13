@@ -28,7 +28,7 @@ namespace HighSpeedMaglevSYS
 
 
             ///A2测试
-            iEOF = 1000;
+            iEOF = 500;
             //注册自定义事件
             TimerUpdate += new event_Handle(changedEvent1);
             //A1EventHandler A1Hand = new A1EventHandler(this.changedEvent1);
@@ -153,10 +153,33 @@ namespace HighSpeedMaglevSYS
              * */
 
             //双缓冲初始化
-            Bitmap bit = new Bitmap(this.A.Width, this.A.Height+30);
+           
+            
+            Graphics g1 = e.Graphics;
+            
+
+            g1.Clear(BackColor);
+            g1.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            Bitmap bit = new Bitmap(54, 300);
             Graphics g = Graphics.FromImage(bit);
-            g.Clear(BackColor);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            DrawImageA(g);
+
+            ///将多个图形一次性绘制到窗体
+            
+
+            g1.DrawImage(bit, new Point(0, 0));
+            //销毁
+            
+            g.Dispose();
+            bit.Dispose();
+            g1.Dispose();
+            
+        }
+
+
+        private void DrawImageA(Graphics g)
+        {
             //A1区绘制
             Brush a1Brush = a1GetBrush();
             g.FillRectangle(a1Brush, 0, 0, dbIconWid, dbIconWid);
@@ -165,7 +188,7 @@ namespace HighSpeedMaglevSYS
             //A2绘制
             //如果FS 中的TSM RSM模式，显示目标距离，其余不显示
             Brush a2Brush = Brushes.White;
-            double dbEOFlength=0;
+            double dbEOFlength = 0;
             if (0x11 == bA1Mode || 0x12 == bA1Mode)
             {
                 if (1000 >= iEOF)
@@ -177,39 +200,35 @@ namespace HighSpeedMaglevSYS
                     dbEOFlength = 172;
                 }
 
+                
                 ///光带
                 int xyEOF = 104 + (172 - (int)dbEOFlength);
-                g.FillRectangle(a2Brush, 34, xyEOF, 15, float.Parse(dbEOFlength.ToString()));
 
+                Pen a2Pen = new Pen(Color.White);
+                a2Pen.Width = 15;
+                g.DrawLine(a2Pen, new PointF(41F, 276-(float)Math.Ceiling(dbEOFlength)), new PointF(41F,270));
+                //g.FillRectangle(a2Brush,new RectangleF( 34F,(float)xyEOF,15F,(float)Math.Ceiling(dbEOFlength)));
+               // 34, xyEOF, 15, Math.Round(dbEOFlength));
+                
                 // 数字
                 String drawString = iEOF.ToString();
-                g.DrawString(drawString, new Font("Arial", 13), Brushes.White, new PointF(0.0F, xyEOF-30));
-              
+                g.DrawString(drawString, new Font("Arial", 13), Brushes.White, new PointF(0.0F, 104 - 30));
+
                 //刻度
                 Pen thickPen = new Pen(Brushes.White);
                 thickPen.Width = 3;
 
-                g.DrawLine(thickPen, new Point(5, xyEOF+2), new Point(30, xyEOF+2));
-                for (int i = 0; i < 5; i++)
+                g.DrawLine(thickPen, new Point(5, 104 + 2), new Point(32, 104 + 2));
+                for (int i = 1; i < 5; i++)
                 {
                     int inter = 2 + i * 5;
-                    g.DrawLine(Pens.White, new Point(15, xyEOF + inter), new Point(30, xyEOF + inter));
+                    g.DrawLine(Pens.White, new Point(15, 104 + inter), new Point(30, 104 + inter));
                 }
-                g.DrawLine(thickPen, new Point(5, xyEOF + 27), new Point(30, xyEOF + 27));
-                g.DrawLine(thickPen, new Point(5, 276), new Point(30, 276));
+                g.DrawLine(thickPen, new Point(5, 104 + 27), new Point(32, 104 + 27));
+                g.DrawLine(thickPen, new Point(5, 270), new Point(32, 270));
             }
-
-
-            ///将多个图形一次性绘制到窗体
-            Graphics g1 = e.Graphics;
-
-            g1.DrawImage(bit, new Point(0, 0));
-            //销毁
-            g.Dispose();
-            bit.Dispose();
-            g1.Dispose();
         }
-        
+
         //public delegate void A1EventHandler(object sender, EventArgs e);
         public double dbVtrainOld;//列车速度
 
@@ -297,6 +316,10 @@ namespace HighSpeedMaglevSYS
             dbVtrain+=1;
             if (250 == dbVtrain)
                 dbVtrain = 75;
+
+            iEOF+=10;
+            if (1500 == iEOF)
+                iEOF = 500;
         }
 
 
@@ -320,40 +343,25 @@ namespace HighSpeedMaglevSYS
         {
             
             //双缓冲初始化
+            Graphics g = e.Graphics;
+            g.Clear(BackColor);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+           
             Bitmap bit = new Bitmap(this.B.Width, this.B.Height);
             Graphics bitmapGraphics = Graphics.FromImage(bit);
+
             bitmapGraphics.Clear(BackColor);
             bitmapGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-            //e.Graphics.Clear(this.BackColor);
-            
-            //设置绘图表面平滑模式
-            
-
-            //this.DoubleBuffered = true;
-            //SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-
-            ///B2
-
-            
-
-            // Draw arc to screen.
-            //g.DrawArc(blackPen, x, y, width, height, startAngle, sweepAngle);
-
-
-            ///B1
-            //g.FillEllipse(Brushes.White, 105, 125, 50, 50);
-            //g.DrawString("145", new Font("Arial", 16), Brushes.Black, new PointF(105, 138));
-
             drawFrame(bitmapGraphics);
             DrawRuling1(bitmapGraphics);
             drawPoint(bitmapGraphics);
             DrawPin(bitmapGraphics, (float)dbVtrain);
 
 
-            ///将多个图形一次性绘制到窗体
-            Graphics g = e.Graphics;
 
+
+            ///将多个图形一次性绘制到窗体
             g.DrawImage(bit, new Point(0, 0));
             //销毁
             bitmapGraphics.Dispose();
@@ -750,7 +758,7 @@ namespace HighSpeedMaglevSYS
 
             Point screenPoint = Control.MousePosition;//鼠标相对于屏幕左上角的坐标
             string str = screenPoint.X.ToString() + "," + screenPoint.Y.ToString();
-            this.toolStripStatusLabel1.Text = str;
+            //this.toolStripStatusLabel1.Text = str;
              
         }
     }
