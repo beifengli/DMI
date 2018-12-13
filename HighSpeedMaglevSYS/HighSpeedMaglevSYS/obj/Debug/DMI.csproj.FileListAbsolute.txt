@@ -7,3 +7,12 @@ F:\项目\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.Pro
 F:\项目\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\DMI.csproj.GenerateResource.Cache
 F:\项目\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.exe
 F:\项目\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.pdb
+F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\bin\Debug\HighSpeedMaglevSYS.exe.config
+F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.exe
+F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.pdb
+F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\bin\Debug\HighSpeedMaglevSYS.exe
+F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\bin\Debug\HighSpeedMaglevSYS.pdb
+F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\DMI.csprojResolveAssemblyReference.cache
+F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.Form1.resources
+F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.Properties.Resources.resources
+F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\DMI.csproj.GenerateResource.Cache
