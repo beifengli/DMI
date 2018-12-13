@@ -1,0 +1,12 @@
+F:\项目\HighSpeedMaglevSYS\Dashboard\obj\Debug\Dashboard.csprojResolveAssemblyReference.cache
+F:\项目\HighSpeedMaglevSYS\Dashboard\obj\Debug\Dashboard.A.A1.resources
+F:\项目\HighSpeedMaglevSYS\Dashboard\obj\Debug\Dashboard.A.A2.resources
+F:\项目\HighSpeedMaglevSYS\Dashboard\obj\Debug\Dashboard.A.A3.resources
+F:\项目\HighSpeedMaglevSYS\Dashboard\obj\Debug\Dashboard.Form1.resources
+F:\项目\HighSpeedMaglevSYS\Dashboard\obj\Debug\Dashboard.Properties.Resources.resources
+F:\项目\HighSpeedMaglevSYS\Dashboard\obj\Debug\Dashboard.csproj.GenerateResource.Cache
+F:\项目\HighSpeedMaglevSYS\Dashboard\bin\Debug\Dashboard.exe.config
+F:\项目\HighSpeedMaglevSYS\Dashboard\bin\Debug\Dashboard.exe
+F:\项目\HighSpeedMaglevSYS\Dashboard\bin\Debug\Dashboard.pdb
+F:\项目\HighSpeedMaglevSYS\Dashboard\obj\Debug\Dashboard.exe
+F:\项目\HighSpeedMaglevSYS\Dashboard\obj\Debug\Dashboard.pdb
