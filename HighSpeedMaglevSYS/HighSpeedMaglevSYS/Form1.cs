@@ -19,13 +19,16 @@ namespace HighSpeedMaglevSYS
     {
         public Form1()
         {
-            bA1Mode = 0x10;  //FS  CSM
+            ///A1测试
+            bA1Mode = 0x11;  //FS  CSM
             dbVperm = 80;
             dbVint = 85;
             dbVrelease = 30;
             dbVtrain = 75;
 
 
+            ///A2测试
+            iEOF = 1000;
             //注册自定义事件
             TimerUpdate += new event_Handle(changedEvent1);
             //A1EventHandler A1Hand = new A1EventHandler(this.changedEvent1);
@@ -43,6 +46,8 @@ namespace HighSpeedMaglevSYS
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
+
+        ///A1
         public byte bA1Mode;//控制模式
         public double dbVtrain;//列车速度
         public double dbVperm;//允许速度
@@ -51,9 +56,13 @@ namespace HighSpeedMaglevSYS
 
         private float dbIconWid=54;//色块宽度
 
-        //A1Event A1EventTemp = new A1Event();
+
+        ///A2
+        public int iEOF;
         public delegate void event_Handle(object sender, EventArgs e);  // 自定义事件的参数类型
-        public event event_Handle TimerUpdate;  
+        public event event_Handle TimerUpdate;
+
+
 
         /// <summary>
         /// TCP/IP通信
@@ -77,11 +86,11 @@ namespace HighSpeedMaglevSYS
             th.Start();
         }
 
-        string txtlog ="";
+        string txtlog = "";
         void ShowMsg(string str)
         {
             txtlog += str + "\r\n";
-            
+
         }
 
         /// <summary>
@@ -122,11 +131,16 @@ namespace HighSpeedMaglevSYS
                 }
                 else if (buffer[0] == 2)
                 {
-                    ZD();
+                    //ZD();
                 }
             }
         }
 
+        /// <summary>
+        /// A区域绘制
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void A_Paint(object sender, PaintEventArgs e)
         {
 
@@ -138,21 +152,62 @@ namespace HighSpeedMaglevSYS
              * 
              * */
 
-            //初始化
-            e.Graphics.Clear(this.BackColor);
-            Graphics g = e.Graphics;
-            //设置绘图表面平滑模式
+            //双缓冲初始化
+            Bitmap bit = new Bitmap(this.A.Width, this.A.Height+30);
+            Graphics g = Graphics.FromImage(bit);
+            g.Clear(BackColor);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-            this.DoubleBuffered = true;
-            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             //A1区绘制
             Brush a1Brush = a1GetBrush();
             g.FillRectangle(a1Brush, 0, 0, dbIconWid, dbIconWid);
 
-           
+
+            //A2绘制
+            //如果FS 中的TSM RSM模式，显示目标距离，其余不显示
+            Brush a2Brush = Brushes.White;
+            double dbEOFlength=0;
+            if (0x11 == bA1Mode || 0x12 == bA1Mode)
+            {
+                if (1000 >= iEOF)
+                {
+                    dbEOFlength = (iEOF / 1000.0) * 172;
+                }
+                else
+                {
+                    dbEOFlength = 172;
+                }
+
+                ///光带
+                int xyEOF = 104 + (172 - (int)dbEOFlength);
+                g.FillRectangle(a2Brush, 34, xyEOF, 15, float.Parse(dbEOFlength.ToString()));
+
+                // 数字
+                String drawString = iEOF.ToString();
+                g.DrawString(drawString, new Font("Arial", 13), Brushes.White, new PointF(0.0F, xyEOF-30));
+              
+                //刻度
+                Pen thickPen = new Pen(Brushes.White);
+                thickPen.Width = 3;
+
+                g.DrawLine(thickPen, new Point(5, xyEOF+2), new Point(30, xyEOF+2));
+                for (int i = 0; i < 5; i++)
+                {
+                    int inter = 2 + i * 5;
+                    g.DrawLine(Pens.White, new Point(15, xyEOF + inter), new Point(30, xyEOF + inter));
+                }
+                g.DrawLine(thickPen, new Point(5, xyEOF + 27), new Point(30, xyEOF + 27));
+                g.DrawLine(thickPen, new Point(5, 276), new Point(30, 276));
+            }
 
 
+            ///将多个图形一次性绘制到窗体
+            Graphics g1 = e.Graphics;
+
+            g1.DrawImage(bit, new Point(0, 0));
+            //销毁
+            g.Dispose();
+            bit.Dispose();
+            g1.Dispose();
         }
         
         //public delegate void A1EventHandler(object sender, EventArgs e);
@@ -166,6 +221,8 @@ namespace HighSpeedMaglevSYS
             {
                 //MessageBox.Show("vTrain changed");
                 this.A.Invalidate();
+                //DrawPin((float)dbVtrain);
+                this.B.Invalidate();
                 dbVtrainOld = dbVtrain;
             }
         }
@@ -237,8 +294,8 @@ namespace HighSpeedMaglevSYS
         /// </summary>
         private void testVtrain()
         {
-            dbVtrain+=0.5;
-            if (90 == dbVtrain)
+            dbVtrain+=1;
+            if (250 == dbVtrain)
                 dbVtrain = 75;
         }
 
@@ -261,9 +318,349 @@ namespace HighSpeedMaglevSYS
         /// <param name="e"></param>
         private void B_Paint(object sender, PaintEventArgs e)
         {
+            
+            //双缓冲初始化
+            Bitmap bit = new Bitmap(this.B.Width, this.B.Height);
+            Graphics bitmapGraphics = Graphics.FromImage(bit);
+            bitmapGraphics.Clear(BackColor);
+            bitmapGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
+            //e.Graphics.Clear(this.BackColor);
+            
+            //设置绘图表面平滑模式
+            
+
+            //this.DoubleBuffered = true;
+            //SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
+            ///B2
+
+            
+
+            // Draw arc to screen.
+            //g.DrawArc(blackPen, x, y, width, height, startAngle, sweepAngle);
+
+
+            ///B1
+            //g.FillEllipse(Brushes.White, 105, 125, 50, 50);
+            //g.DrawString("145", new Font("Arial", 16), Brushes.Black, new PointF(105, 138));
+
+            drawFrame(bitmapGraphics);
+            DrawRuling1(bitmapGraphics);
+            drawPoint(bitmapGraphics);
+            DrawPin(bitmapGraphics, (float)dbVtrain);
+
+
+            ///将多个图形一次性绘制到窗体
+            Graphics g = e.Graphics;
+
+            g.DrawImage(bit, new Point(0, 0));
+            //销毁
+            bitmapGraphics.Dispose();
+            bit.Dispose();
+            g.Dispose();
         }
 
+        /// <summary>
+        /// 绘制环形速度表框线
+        /// </summary>
+        /// <param name="gp"></param>
+        private void drawFrame(Graphics g)
+        {
+            // Create pen.
+            Pen blackPen = new Pen(Color.White, 9);
+
+            // Create coordinates of rectangle to bound ellipse.
+            float x = 10.0F;
+            float y = 10.0F;
+            float width = 260.0F;
+            float height = 260.0F;
+
+            // Create start and sweep angles on ellipse.
+            float startAngle = 135.0F;
+            float sweepAngle = 270.0F;
+
+            g.DrawArc(blackPen, x, y, width, height, startAngle, sweepAngle);
+        }
+
+        /// <summary>
+        /// 绘制环形速度表刻度前部分
+        /// </summary>
+        /// <param name="gp"></param>
+        private void DrawRuling1(Graphics gp)
+        {
+
+            int _diameter = 260;
+            Color _frameColor = Color.White;
+            float _maxValue = 450;
+            //刻度
+            int cerX = _diameter / 2+10;
+            int cerY = _diameter / 2+10;
+
+            //这里需要注意，因外在上面的图中标识了rad=0的位置，而我们的仪表时270度的，0点在135度处，
+
+            //为了符合该效果所以起始位置设为135度。
+            float start = 135;
+            float sweepShot = 0;
+            int dx = 0;
+            int dy = 0;
+            int soildLenght = 25;
+            Pen linePen = new Pen(_frameColor, 1);
+            float span = (float)(_maxValue / 30);
+            float sp = 0;
+            //用于右边数字右对齐
+            StringFormat stf = new StringFormat();
+            stf.Alignment = StringAlignment.Far;
+
+            StringFormat stfMid = new StringFormat();
+            stfMid.Alignment = StringAlignment.Center;
+            stfMid.LineAlignment = StringAlignment.Center;
+            for (int i = 0; i <= 30; i++)
+            {
+                //注意此处，C#提供的三角函数计算中使用的弧度值，而此处获取的是角度值，需要转化
+
+                double rad = (sweepShot + start) * Math.PI / 180;
+                float radius = _diameter / 2 - 5;
+                int px = (int)(cerX + radius * Math.Cos(rad));
+                int py = (int)(cerY + radius * Math.Sin(rad));
+                if (sweepShot % 15 == 0)
+                {
+                    linePen.Width = 2;
+
+                    //计算刻度中的粗线
+                    dx = (int)(cerX + (radius - soildLenght) * Math.Cos(rad));
+                    dy = (int)(cerY + (radius - soildLenght) * Math.Sin(rad));
+
+                    //绘制刻度值，注意字串对其方式
+                    string str = sp.ToString("f0");
+                    if (sweepShot < 45)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx-10, dy - 25));
+                    }
+                    else if (45 == sweepShot)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx + 10, dy-10));
+                    }
+                    else if (sweepShot > 45 && sweepShot < 135)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx, dy));
+                    }
+                    else if (sweepShot == 135)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx, dy + 20), stfMid);
+                    }
+                    else if (sweepShot > 135 && sweepShot < 225)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx, dy), stf);
+                    }
+                    else if (225 == sweepShot)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx - 45, dy - 10));
+                    }
+                    else if (sweepShot >= 225)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx + 10, dy - 25), stf);
+                    }
+
+                }
+                else
+                {
+
+                    //计算刻度中细线
+
+                    linePen.Width = 1;
+                    dx = (int)(cerX + (radius - soildLenght + 10) * Math.Cos(rad));
+                    dy = (int)(cerY + (radius - soildLenght + 10) * Math.Sin(rad));
+                }
+
+                //绘制刻度线
+                gp.DrawLine(linePen, new Point(px, py), new Point(dx, dy));
+                sp += span;
+                sweepShot += 9;
+            }
+        }
+
+        /// <summary>
+        /// 绘制环形速度表刻度后部分
+        /// </summary>
+        /// <param name="gp"></param>
+        private void DrawRuling2(Graphics gp)
+        {
+
+            int _diameter = 260;
+            Color _frameColor = Color.White;
+            float _maxValue = 450;
+            //刻度
+            int cerX = _diameter / 2 + 10;
+            int cerY = _diameter / 2 + 10;
+
+            //这里需要注意，因外在上面的图中标识了rad=0的位置，而我们的仪表时270度的，0点在135度处，
+
+            //为了符合该效果所以起始位置设为135度。
+            float start = 270;
+            float sweepShot = 0;
+            int dx = 0;
+            int dy = 0;
+            int soildLenght = 25;
+            Pen linePen = new Pen(_frameColor, 1);
+            float span = (float)(_maxValue / 30);
+            float sp = 150;
+            //用于右边数字右对齐
+            StringFormat stf = new StringFormat();
+            stf.Alignment = StringAlignment.Far;
+
+            StringFormat stfMid = new StringFormat();
+            stfMid.Alignment = StringAlignment.Center;
+            stfMid.LineAlignment = StringAlignment.Center;
+            for (int i = 0; i <= 30; i++)
+            {
+                //注意此处，C#提供的三角函数计算中使用的弧度值，而此处获取的是角度值，需要转化
+
+                double rad = (sweepShot + start) * Math.PI / 180;
+                float radius = _diameter / 2 - 5;
+                int px = (int)(cerX + radius * Math.Cos(rad));
+                int py = (int)(cerY + radius * Math.Sin(rad));
+                if (sweepShot % 24.165 == 0)
+                {
+                    linePen.Width = 2;
+
+                    //计算刻度中的粗线
+                    dx = (int)(cerX + (radius - soildLenght) * Math.Cos(rad));
+                    dy = (int)(cerY + (radius - soildLenght) * Math.Sin(rad));
+
+                    //绘制刻度值，注意字串对其方式
+                    string str = sp.ToString("f0");
+                    if (sweepShot < 45)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx - 10, dy - 25));
+                    }
+                    else if (45 == sweepShot)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx + 10, dy - 10));
+                    }
+                    else if (sweepShot > 45 && sweepShot < 135)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx, dy));
+                    }
+                    else if (sweepShot == 135)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx, dy + 20), stfMid);
+                    }
+                    else if (sweepShot > 135 && sweepShot < 225)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx, dy), stf);
+                    }
+                    else if (225 == sweepShot)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx - 45, dy - 10));
+                    }
+                    else if (sweepShot >= 225)
+                    {
+                        gp.DrawString(str, new Font("Arial", 16), new SolidBrush(_frameColor), new PointF(dx + 10, dy - 25), stf);
+                    }
+
+                }
+                else
+                {
+
+                    //计算刻度中细线
+
+                    linePen.Width = 1;
+                    dx = (int)(cerX + (radius - soildLenght + 10) * Math.Cos(rad));
+                    dy = (int)(cerY + (radius - soildLenght + 10) * Math.Sin(rad));
+                }
+
+                //绘制刻度线
+                gp.DrawLine(linePen, new Point(px, py), new Point(dx, dy));
+                sp += span;
+                sweepShot += 4.8F;
+            }
+        }
+
+        /// <summary>
+        /// 数字方式显示列车速度
+        /// </summary>
+        /// <param name="gp"></param>
+        private void drawPoint(Graphics gp)
+        {
+            Color _frameColor = Color.White;
+            int _diameter = 260;
+            Color _pinColor = Color.White;
+
+            Pen p = new Pen(_frameColor);
+            int tmpWidth = 25;
+            int px = _diameter / 2 - tmpWidth;
+            //gp.DrawEllipse(p, new Rectangle(px+10, px+10, 2 * tmpWidth, 2 * tmpWidth));
+            gp.FillEllipse(new SolidBrush(_pinColor), new Rectangle(px + 10, px + 10, 2 * tmpWidth, 2 * tmpWidth));
+
+            
+        }
+
+
+        /// <summary>
+        /// 指针
+        /// </summary>
+        /// <param name="g"></param>
+        private void DrawPin(Graphics g, float _changeValue)
+        {
+            
+
+            int _diameter = 260;
+            float _maxValue=450;
+            Color _pinColor = Color.White;
+            double _PinLen = 100;
+            double NxPinLen = 50;
+ 
+            int cer = _diameter / 2+10;
+            float start = 135;
+            float sweepShot = (float)(_changeValue / _maxValue * 270);
+
+            Pen linePen1 = new Pen(_pinColor, 3);
+            Pen linePen2 = new Pen(_pinColor, 5);
+            Pen linePen3 = new Pen(_pinColor, 7);
+            Pen linePen4 = new Pen(_pinColor, 9);
+            double rad = (sweepShot + start) * Math.PI / 180;
+            float radius = _diameter / 2 - 5;
+
+            int dx = (int)(cer + (_PinLen) * Math.Cos(rad));
+            int dy = (int)(cer + (_PinLen) * Math.Sin(rad));
+
+            /*
+            int px = (int)(cer + (_PinLen * 0.4) * Math.Cos(rad));
+            int py = (int)(cer + (_PinLen * 0.4) * Math.Sin(rad));
+            */
+            int dx2 = (int)(cer + (_PinLen-15) * Math.Cos(rad));
+            int dy2 = (int)(cer + (_PinLen-15) * Math.Sin(rad));
+
+            int dx3 = (int)(cer + (_PinLen - 20) * Math.Cos(rad));
+            int dy3 = (int)(cer + (_PinLen - 20) * Math.Sin(rad));
+
+            int dx4 = (int)(cer + (_PinLen - 25) * Math.Cos(rad));
+            int dy4 = (int)(cer + (_PinLen - 25) * Math.Sin(rad));
+
+            int nx = (int)(cer - (NxPinLen) * Math.Sin(rad));
+            int ny = (int)(cer - (NxPinLen) * Math.Cos(rad));
+
+            double r=25 * Math.Cos(rad);
+            g.DrawLine(linePen1, new PointF(cer, cer), new PointF(dx, dy));
+            g.DrawLine(linePen2, new PointF(cer, cer), new PointF(dx2, dy2));
+            g.DrawLine(linePen3, new PointF(cer, cer), new PointF(dx3, dy3));
+            g.DrawLine(linePen4, new PointF(cer, cer), new PointF(dx4, dy4));
+            //g.DrawLine(NxPen, new Point(cer, cer), new Point(px, py));
+            //g.DrawLine(xPen, new Point(cer, cer), new Point(ny, nx));
+
+
+            int tmpWidth = 25;
+            int pxStr = _diameter / 2 - tmpWidth;
+            if (100 > dbVtrain)
+            {
+                g.DrawString(this.dbVtrain.ToString(), new Font("Arial", 16), Brushes.Black, new PointF(pxStr + 20F, pxStr + 24F));
+            }
+            else
+            {
+                g.DrawString(this.dbVtrain.ToString(), new Font("Arial", 16), Brushes.Black, new PointF(pxStr + 13F, pxStr + 24F));
+            }
+        }
 
         /// <summary>
         /// 补充驾驶信息
@@ -309,11 +706,22 @@ namespace HighSpeedMaglevSYS
 
         }
 
+        /// <summary>
+        /// 单元测试
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
             testVtrain();
         }
 
+
+        /// <summary>
+        /// 状态更新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer2_Tick(object sender, EventArgs e)
         {
             if (TimerUpdate != null) TimerUpdate(this, new EventArgs());//调用自定义事件
@@ -325,9 +733,25 @@ namespace HighSpeedMaglevSYS
             //this.A.Invalidate();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            Control.CheckForIllegalCrossThreadCalls = false;
+            
+        }
+
+        private void B_MouseHover(object sender, EventArgs e)
+        {
+            
+            
+        }
+
+        private void B_MouseMove(object sender, MouseEventArgs e)
+        {
+            //Control.MousePosition
+
+            Point screenPoint = Control.MousePosition;//鼠标相对于屏幕左上角的坐标
+            string str = screenPoint.X.ToString() + "," + screenPoint.Y.ToString();
+            this.toolStripStatusLabel1.Text = str;
+             
         }
     }
 

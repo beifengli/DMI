@@ -30,20 +30,21 @@
         {
             this.components = new System.ComponentModel.Container();
             this.A = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.B = new System.Windows.Forms.Panel();
             this.C = new System.Windows.Forms.Panel();
             this.D = new System.Windows.Forms.Panel();
             this.E = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.F = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.A.SuspendLayout();
+            this.E.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // A
             // 
-            this.A.Controls.Add(this.button1);
             this.A.Location = new System.Drawing.Point(0, 0);
             this.A.Margin = new System.Windows.Forms.Padding(0);
             this.A.Name = "A";
@@ -51,24 +52,17 @@
             this.A.TabIndex = 0;
             this.A.Paint += new System.Windows.Forms.PaintEventHandler(this.A_Paint);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(0, 140);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // B
             // 
+            this.B.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.B.Location = new System.Drawing.Point(54, 0);
             this.B.Margin = new System.Windows.Forms.Padding(0);
             this.B.Name = "B";
             this.B.Size = new System.Drawing.Size(280, 300);
             this.B.TabIndex = 1;
             this.B.Paint += new System.Windows.Forms.PaintEventHandler(this.B_Paint);
+            this.B.MouseHover += new System.EventHandler(this.B_MouseHover);
+            this.B.MouseMove += new System.Windows.Forms.MouseEventHandler(this.B_MouseMove);
             // 
             // C
             // 
@@ -90,12 +84,30 @@
             // 
             // E
             // 
+            this.E.Controls.Add(this.statusStrip1);
             this.E.Location = new System.Drawing.Point(0, 300);
             this.E.Margin = new System.Windows.Forms.Padding(0);
             this.E.Name = "E";
             this.E.Size = new System.Drawing.Size(578, 180);
             this.E.TabIndex = 4;
             this.E.Paint += new System.Windows.Forms.PaintEventHandler(this.E_Paint);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 158);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(578, 22);
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(32, 17);
+            this.toolStripStatusLabel1.Text = "坐标";
             // 
             // F
             // 
@@ -131,8 +143,11 @@
             this.Controls.Add(this.E);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.A.ResumeLayout(false);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
+            this.E.ResumeLayout(false);
+            this.E.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -147,7 +162,8 @@
         private System.Windows.Forms.Panel F;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 
