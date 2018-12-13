@@ -142,6 +142,7 @@ namespace Socket通信
 
         private void button2_Click(object sender, EventArgs e)
         {
+            /*
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.InitialDirectory = @"C:\Users\Xuheyao\Desktop";
             ofd.Title = "请选择文件";
@@ -149,10 +150,12 @@ namespace Socket通信
             ofd.ShowDialog();
 
             txtPath.Text = ofd.FileName;
+             * */
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            /*
             string path=txtPath.Text;
             using(FileStream fsRead=new FileStream(path,FileMode.OpenOrCreate,FileAccess.Read))
             {
@@ -164,6 +167,7 @@ namespace Socket通信
                 int r = fsRead.Read(buffer, 0, buffer.Length);
                 dicSocket[comboBox1.SelectedItem.ToString()].Send(buffer, 0, r + 1,SocketFlags.None);
             }
+             * */
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -171,6 +175,12 @@ namespace Socket通信
             byte[] buffer = new byte[1];
             buffer[0] = 2;
             dicSocket[comboBox1.SelectedItem.ToString()].Send(buffer);
+        }
+
+        struct message {
+            string Q_UPDOWN;
+            string M_VERSION;
+            string Q_MEDIA;
         }
     }
 }

@@ -146,7 +146,8 @@ namespace HighSpeedMaglevSYS
         string txtlog = "";
         void ShowMsg(string str)
         {
-            txtlog += str + "\r\n";
+            DateTime time = DateTime.Now;
+            strLog = time.ToString("d") +" "+time.ToString("t")+ "  " + str + "\r\n"+strLog;
 
         }
 
@@ -786,7 +787,7 @@ namespace HighSpeedMaglevSYS
         }
 
 
-        private string _strLog = "测试开始";
+        private string _strLog = "";
 
         public string strLog
         {
@@ -810,13 +811,17 @@ namespace HighSpeedMaglevSYS
             g.Clear(BackColor);
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            Bitmap bit = new Bitmap(this.E.Width, this.E.Height);
+            Bitmap bit = new Bitmap(578, 180);
             Graphics gbit = Graphics.FromImage(bit);
 
             gbit.Clear(BackColor);
             gbit.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             //strLog="测试开始";
-            gbit.DrawString(strLog, new Font("Arial", 16), Brushes.White, new PointF(20F, 80F));
+            
+            //文本信息
+            gbit.DrawString(getLog(strLog), new Font("Arial", 10), Brushes.White, new PointF(54F, 54F));
+
+
 
             g.DrawImage(bit, new Point(0, 0));
 
@@ -825,6 +830,24 @@ namespace HighSpeedMaglevSYS
             g.Dispose();
         }
 
+
+        private string getLog(string str)
+        {
+            string strRe="";
+            string[] split = str.Split('\n');
+            if (5 <= split.Length)
+            {
+                for (uint i = 0; i < 4; i++)
+                {
+                    strRe += split[i] + "\n";
+                }
+            }
+            else
+            {
+                strRe = str;
+            }
+            return strRe;
+        }
 
 
         /// <summary>
@@ -888,6 +911,11 @@ namespace HighSpeedMaglevSYS
         private void button1_Click_1(object sender, EventArgs e)
         {
             strLog += "\t测试";
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            socketStart();
         }
     }
 
