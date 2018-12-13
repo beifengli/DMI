@@ -242,6 +242,8 @@ namespace HighSpeedMaglevSYS
                 this.A.Invalidate();
                 //DrawPin((float)dbVtrain);
                 this.B.Invalidate();
+                //DrawImageBit2();
+                this.E.Invalidate();
                 dbVtrainOld = dbVtrain;
             }
         }
@@ -348,25 +350,60 @@ namespace HighSpeedMaglevSYS
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
            
-            Bitmap bit = new Bitmap(this.B.Width, this.B.Height);
-            Graphics bitmapGraphics = Graphics.FromImage(bit);
+            Bitmap bit = new Bitmap(280, 300);
+            Graphics g1 = Graphics.FromImage(bit);
 
-            bitmapGraphics.Clear(BackColor);
-            bitmapGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            drawFrame(bitmapGraphics);
-            DrawRuling1(bitmapGraphics);
-            drawPoint(bitmapGraphics);
-            DrawPin(bitmapGraphics, (float)dbVtrain);
+            g1.Clear(Color.Transparent);
+            g1.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            DrawImageBit1(g1);
 
-
-
-
+            /*
+            Bitmap bit2 = new Bitmap(this.E.Width, this.E.Height);
+            Graphics g2 = Graphics.FromImage(bit2);
+            g2.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            //DrawPin(g2, (float)dbVtrain);
+            DrawImageBit2(g2);
+            */
             ///将多个图形一次性绘制到窗体
             g.DrawImage(bit, new Point(0, 0));
+            //g.DrawImage(bit2, new Point(0, 0));
+            //g.DrawImage(bit2,new Point(0,0));
+           
+
             //销毁
-            bitmapGraphics.Dispose();
+            //bitmap2Graphics.Dispose();
+            g1.Dispose();
+            //g2.Dispose();
             bit.Dispose();
             g.Dispose();
+        }
+
+        private void DrawImageBit1(Graphics g)
+        {
+            //g.Clear(System.Drawing.Color.Transparent);
+
+            drawFrame(g);
+            DrawRuling1(g);
+            drawPoint(g);
+            DrawPin(g, (float)dbVtrain);
+        }
+
+        private void DrawImageBit2()
+        {
+            Graphics g = this.B.CreateGraphics();
+            g.Clear(System.Drawing.Color.Transparent);
+
+            Bitmap bit = new Bitmap(this.E.Width, this.E.Height);
+            Graphics gbit = Graphics.FromImage(bit);
+            gbit.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            
+            DrawPin(g, (float)dbVtrain);
+
+            g.DrawImage(bit, new Point(0, 0));
+
+            gbit.Dispose();
+            g.Dispose();
+            bit.Dispose();
         }
 
         /// <summary>
@@ -611,7 +648,8 @@ namespace HighSpeedMaglevSYS
         /// <param name="g"></param>
         private void DrawPin(Graphics g, float _changeValue)
         {
-            
+
+
 
             int _diameter = 260;
             float _maxValue=450;
@@ -699,7 +737,23 @@ namespace HighSpeedMaglevSYS
         /// <param name="e"></param>
         private void E_Paint(object sender, PaintEventArgs e)
         {
+           
+            Graphics g = e.Graphics;
+            g.Clear(BackColor);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
+            Bitmap bit = new Bitmap(this.E.Width, this.E.Height);
+            Graphics gbit = Graphics.FromImage(bit);
+
+            gbit.Clear(BackColor);
+            gbit.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            gbit.DrawString("测试开始", new Font("Arial", 16), Brushes.White, new PointF(20F,80F));
+
+            g.DrawImage(bit, new Point(0, 0));
+
+            gbit.Dispose();
+            bit.Dispose();
+            g.Dispose();
         }
 
 

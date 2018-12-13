@@ -50,7 +50,7 @@
             // 
             // B
             // 
-            this.B.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.B.BackColor = System.Drawing.Color.Transparent;
             this.B.Location = new System.Drawing.Point(54, 0);
             this.B.Margin = new System.Windows.Forms.Padding(0);
             this.B.Name = "B";
