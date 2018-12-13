@@ -47,12 +47,69 @@ namespace HighSpeedMaglevSYS
         /// <param name="e"></param>
 
 
-        ///A1
-        public byte bA1Mode;//控制模式
-        public double dbVtrain;//列车速度
-        public double dbVperm;//允许速度
-        public double dbVrelease;//开口速度
-        public double dbVint;//干预速度
+        //A1
+        //控制模式
+        private byte _bA1Mode;
+        public byte bA1Mode
+        {
+            get { return _bA1Mode; }
+            set {
+                _bA1Mode = value;
+            }
+        }
+
+        //列车速度
+        private double _dbVtrain;
+        public double dbVtrain
+        {
+            get { return _dbVtrain; }
+            set
+            {
+                _dbVtrain=value;
+                if (null != this.A)
+                {
+                    this.A.Invalidate();
+                }
+                if (null != this.B)
+                {
+                    this.B.Invalidate();
+                }
+            }
+        }
+
+        //允许速度
+        private double _dbVperm;
+        public double dbVperm
+        {
+            get { return _dbVperm; }
+            set
+            {
+                _dbVperm = value;
+            }
+        }
+
+
+        //开口速度
+        private double _dbVrelease;
+        public double dbVrelease
+        {
+            get { return _dbVrelease; }
+            set {
+                _dbVrelease = value;
+            }
+        }
+
+        //干预速度
+        private double _dbVint;
+        public double dbVint
+        {
+            get { return _dbVint; }
+            set
+            {
+                _dbVint = value;
+            }
+        }
+
 
         private float dbIconWid=54;//色块宽度
 
@@ -239,11 +296,10 @@ namespace HighSpeedMaglevSYS
             if (dbVtrain != dbVtrainOld)
             {
                 //MessageBox.Show("vTrain changed");
-                this.A.Invalidate();
+                //this.A.Invalidate();
                 //DrawPin((float)dbVtrain);
-                this.B.Invalidate();
-                //DrawImageBit2();
-                this.E.Invalidate();
+                //this.B.Invalidate();
+                
                 dbVtrainOld = dbVtrain;
             }
         }
@@ -353,7 +409,7 @@ namespace HighSpeedMaglevSYS
             Bitmap bit = new Bitmap(280, 300);
             Graphics g1 = Graphics.FromImage(bit);
 
-            g1.Clear(Color.Transparent);
+            //g1.Clear(Color.Transparent);
             g1.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             DrawImageBit1(g1);
 
@@ -730,6 +786,18 @@ namespace HighSpeedMaglevSYS
         }
 
 
+        private string _strLog = "测试开始";
+
+        public string strLog
+        {
+            get { return _strLog; }
+            set {
+                _strLog = value;
+                if (null != this.E)
+                    this.E.Invalidate();
+            }
+        
+        }
         /// <summary>
         /// 监控信息
         /// </summary>
@@ -747,7 +815,8 @@ namespace HighSpeedMaglevSYS
 
             gbit.Clear(BackColor);
             gbit.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            gbit.DrawString("测试开始", new Font("Arial", 16), Brushes.White, new PointF(20F,80F));
+            //strLog="测试开始";
+            gbit.DrawString(strLog, new Font("Arial", 16), Brushes.White, new PointF(20F, 80F));
 
             g.DrawImage(bit, new Point(0, 0));
 
@@ -814,6 +883,11 @@ namespace HighSpeedMaglevSYS
             string str = screenPoint.X.ToString() + "," + screenPoint.Y.ToString();
             //this.toolStripStatusLabel1.Text = str;
              
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            strLog += "\t测试";
         }
     }
 

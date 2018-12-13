@@ -33,10 +33,12 @@
             this.B = new System.Windows.Forms.Panel();
             this.C = new System.Windows.Forms.Panel();
             this.D = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.F = new System.Windows.Forms.Panel();
             this.E = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.D.SuspendLayout();
             this.SuspendLayout();
             // 
             // A
@@ -71,12 +73,23 @@
             // 
             // D
             // 
+            this.D.Controls.Add(this.button1);
             this.D.Location = new System.Drawing.Point(334, 0);
             this.D.Margin = new System.Windows.Forms.Padding(0);
             this.D.Name = "D";
             this.D.Size = new System.Drawing.Size(244, 300);
             this.D.TabIndex = 3;
             this.D.Paint += new System.Windows.Forms.PaintEventHandler(this.D_Paint);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(78, 83);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // F
             // 
@@ -99,12 +112,13 @@
             // timer1
             // 
             this.timer1.Enabled = true;
+            this.timer1.Interval = 200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // timer2
             // 
             this.timer2.Enabled = true;
-            this.timer2.Interval = 25;
+            this.timer2.Interval = 500;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // Form1
@@ -122,6 +136,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
+            this.D.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -136,6 +151,7 @@
         private System.Windows.Forms.Panel F;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Button button1;
     }
 }
 
