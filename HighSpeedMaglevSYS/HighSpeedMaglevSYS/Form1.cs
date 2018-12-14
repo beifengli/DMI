@@ -211,7 +211,7 @@ namespace HighSpeedMaglevSYS
                     string sTemp2 = sTemp1.Substring(0, sTemp1.Length - 8);
                     //string[] strResule=sTemp.Split("11111111",StringSplitOptions.None);
 
-                    ShowMsg(socketSend.RemoteEndPoint + ":" + uncode(sTemp2));
+                    ShowMsg(socketSend.RemoteEndPoint + ":" + sTemp2);
                 }
                 else if (buffer[0] == 1)
                 {

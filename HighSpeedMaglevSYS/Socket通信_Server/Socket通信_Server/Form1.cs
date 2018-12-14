@@ -138,7 +138,7 @@ namespace Socket通信
 
                 mes.USERDATA = txtMsg.Text;
 
-                string str = mes.encode();
+                string str = mes.packet();
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(str);
                 List<byte> list = new List<byte>();
                 list.Add(0);

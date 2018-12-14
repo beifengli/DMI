@@ -171,7 +171,8 @@ namespace Socket通信_Server
                this.NID_C +
                this.NID_BG +
                this.Q_LINK +
-               this.packet() +
+               //this.packet() +
+               this.USERDATA+
                this.END;
 
            return str;
