@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMI", "HighSpeedMaglevSYS\DMI.csproj", "{988A5BEA-46C1-4406-9F2C-A67B8F172E79}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9CBC37B1-F498-414F-83FD-BA44AE3E8A76} = {9CBC37B1-F498-414F-83FD-BA44AE3E8A76}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socket通信_Server", "Socket通信_Server\Socket通信_Server\Socket通信_Server.csproj", "{9CBC37B1-F498-414F-83FD-BA44AE3E8A76}"
 EndProject

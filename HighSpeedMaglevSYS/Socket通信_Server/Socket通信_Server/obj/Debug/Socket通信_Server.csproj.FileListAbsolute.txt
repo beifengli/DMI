@@ -24,3 +24,11 @@ F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信_Server.csproj.GenerateResource.Cache
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\bin\Debug\Socket通信_Server.exe
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\bin\Debug\Socket通信_Server.pdb
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\bin\Debug\Socket通信_Server.exe.config
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\bin\Debug\Socket通信_Server.exe
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\bin\Debug\Socket通信_Server.pdb
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信.Form1.resources
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信_Server.Properties.Resources.resources
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信_Server.csproj.GenerateResource.Cache
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信_Server.exe
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信_Server.pdb

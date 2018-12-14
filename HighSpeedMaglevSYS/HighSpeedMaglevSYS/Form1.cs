@@ -120,7 +120,15 @@ namespace HighSpeedMaglevSYS
         public event event_Handle TimerUpdate;
 
 
+        private bool _serverConnect;
+        private bool serverConnect
+        {
+            get { return _serverConnect; }
+            set {
+                _serverConnect = value;
 
+            }
+        }
         /// <summary>
         /// TCP/IP通信
         /// DMI为客户端
@@ -135,8 +143,35 @@ namespace HighSpeedMaglevSYS
             IPAddress ip = IPAddress.Parse("127.0.0.1");
             IPEndPoint point = new IPEndPoint(ip, Convert.ToInt32("50000"));
             //获得要连接的远程服务器应用程序的IP地址和端口号
-            socketSend.Connect(point);
-            ShowMsg("连接成功");
+            try
+            {
+                socketSend.Connect(point);
+
+                serverConnect = true;
+
+            }
+            catch (SocketException e)
+            {
+                // 10035 == WSAEWOULDBLOCK
+                if (e.NativeErrorCode.Equals(10035))
+                {
+                    Console.WriteLine("Still Connected, but the Send would block");
+                    serverConnect = false;
+                }
+                else
+                {
+                    Console.WriteLine("Disconnected: error code {0}!", e.NativeErrorCode);
+                }
+
+            }
+            finally
+            { 
+                if(true == serverConnect)
+                    ShowMsg("连接成功");
+                else
+                    ShowMsg("连接失败");
+            }
+            
 
             Thread th = new Thread(Recive);
             th.IsBackground = true;
@@ -151,12 +186,13 @@ namespace HighSpeedMaglevSYS
 
         }
 
+        message mes;
         /// <summary>
         /// 不停的接收服务器发来的消息
         /// </summary>
         void Recive()
         {
-            while (true)
+            while (serverConnect)
             {
                 byte[] buffer = new byte[1024 * 1024 * 2];
                 int r = socketSend.Receive(buffer);
@@ -170,7 +206,12 @@ namespace HighSpeedMaglevSYS
                 {
 
                     string s = Encoding.UTF8.GetString(buffer, 1, r - 1);
-                    ShowMsg(socketSend.RemoteEndPoint + ":" + s);
+
+                    string sTemp1 = s.Substring(50);
+                    string sTemp2 = sTemp1.Substring(0, sTemp1.Length - 8);
+                    //string[] strResule=sTemp.Split("11111111",StringSplitOptions.None);
+
+                    ShowMsg(socketSend.RemoteEndPoint + ":" + uncode(sTemp2));
                 }
                 else if (buffer[0] == 1)
                 {
@@ -194,6 +235,18 @@ namespace HighSpeedMaglevSYS
             }
         }
 
+
+        public static string uncode(string s)
+        {
+            System.Text.RegularExpressions.CaptureCollection cs =
+                   System.Text.RegularExpressions.Regex.Match(s, @"([01]{8})+").Groups[1].Captures;
+            byte[] data = new byte[cs.Count];
+            for (int i = 0; i < cs.Count; i++)
+            {
+                data[i] = Convert.ToByte(cs[i].Value, 2);
+            }
+            return Encoding.Unicode.GetString(data, 0, data.Length);
+        }
         /// <summary>
         /// A区域绘制
         /// </summary>

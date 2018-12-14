@@ -16,3 +16,11 @@ F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\DMI.csprojReso
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.Form1.resources
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.Properties.Resources.resources
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\DMI.csproj.GenerateResource.Cache
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\bin\Debug\HighSpeedMaglevSYS.exe.config
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.exe
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.pdb
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\bin\Debug\HighSpeedMaglevSYS.exe
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\bin\Debug\HighSpeedMaglevSYS.pdb
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.Form1.resources
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.Properties.Resources.resources
+E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\DMI.csproj.GenerateResource.Cache

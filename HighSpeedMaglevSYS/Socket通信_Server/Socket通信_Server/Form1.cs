@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Socket通信_Server;
 
 namespace Socket通信
 {
@@ -123,7 +124,21 @@ namespace Socket通信
         {
             try
             {
-                string str = txtMsg.Text;
+                message mes = new message();
+                //mes.USERDATA = System.Text.Encoding.UTF8.GetBytes(txtMsg.Text);
+                /*
+                string outstr = string.Empty;
+                foreach (char iten in txtMsg.Text)
+                {
+                    int i = iten;
+                    outstr += Convert.ToString(i, 2);
+                }
+                mes.USERDATA = outstr;
+                */
+
+                mes.USERDATA = txtMsg.Text;
+
+                string str = mes.encode();
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(str);
                 List<byte> list = new List<byte>();
                 list.Add(0);
@@ -177,10 +192,6 @@ namespace Socket通信
             dicSocket[comboBox1.SelectedItem.ToString()].Send(buffer);
         }
 
-        struct message {
-            string Q_UPDOWN;
-            string M_VERSION;
-            string Q_MEDIA;
-        }
+       
     }
 }
