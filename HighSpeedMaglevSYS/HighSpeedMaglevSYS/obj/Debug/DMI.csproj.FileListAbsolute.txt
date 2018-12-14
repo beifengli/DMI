@@ -23,3 +23,4 @@ E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\bin\
 E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.Form1.resources
 E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\HighSpeedMaglevSYS.Properties.Resources.resources
 E:\赖培\课程\实验室\项目\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\DMI.csproj.GenerateResource.Cache
+F:\项目\DMI\DMI\HighSpeedMaglevSYS\HighSpeedMaglevSYS\obj\Debug\DMI.csprojResolveAssemblyReference.cache

@@ -192,6 +192,9 @@ namespace HighSpeedMaglevSYS
         /// </summary>
         void Recive()
         {
+            if (false == socketSend.Connected)
+                serverConnect = false;
+            
             while (serverConnect)
             {
                 byte[] buffer = new byte[1024 * 1024 * 2];
@@ -211,6 +214,7 @@ namespace HighSpeedMaglevSYS
                     string sTemp2 = sTemp1.Substring(0, sTemp1.Length - 8);
                     //string[] strResule=sTemp.Split("11111111",StringSplitOptions.None);
 
+                    dbVtrain = int.Parse(sTemp2);
                     ShowMsg(socketSend.RemoteEndPoint + ":" + sTemp2);
                 }
                 else if (buffer[0] == 1)
@@ -920,7 +924,7 @@ namespace HighSpeedMaglevSYS
         /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
-            testVtrain();
+            //testVtrain();
         }
 
 
