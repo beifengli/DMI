@@ -18,7 +18,6 @@ E:\赖培\课程\实验室\项目\Communication-by-Socket-master\Communication-b
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\bin\Debug\Socket通信_Server.exe.config
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信_Server.exe
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信_Server.pdb
-F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信_Server.csprojResolveAssemblyReference.cache
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信.Form1.resources
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信_Server.Properties.Resources.resources
 F:\项目\DMI\DMI\HighSpeedMaglevSYS\Socket通信_Server\Socket通信_Server\obj\Debug\Socket通信_Server.csproj.GenerateResource.Cache

@@ -136,17 +136,24 @@ namespace Socket通信
                 mes.USERDATA = outstr;
                 */
 
-                mes.USERDATA = txtMsg.Text;
+                for (uint i = 0; i < 100; i++)
+                {
 
-                string str = mes.packet();
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(str);
-                List<byte> list = new List<byte>();
-                list.Add(0);
-                list.AddRange(buffer);
-                byte[] newBuffer = list.ToArray();
-                //获得用户在下拉框中选中的IP地址
-                string ip = comboBox1.SelectedItem.ToString();
-                dicSocket[ip].Send(newBuffer);
+                    //mes.USERDATA = txtMsg.Text;
+                    mes.USERDATA = i.ToString();
+
+                    string str = mes.packet();
+                    byte[] buffer = System.Text.Encoding.UTF8.GetBytes(str);
+                    List<byte> list = new List<byte>();
+                    list.Add(0);
+                    list.AddRange(buffer);
+                    byte[] newBuffer = list.ToArray();
+                    //获得用户在下拉框中选中的IP地址
+                    string ip = comboBox1.SelectedItem.ToString();
+                    dicSocket[ip].Send(newBuffer);
+                    Thread.Sleep(500);
+
+                }
                 //socketSend.Send(buffer);
             }
             catch

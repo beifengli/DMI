@@ -26,6 +26,9 @@ namespace HighSpeedMaglevSYS
             dbVrelease = 30;
             dbVtrain = 75;
 
+            strTrainNum = "G1212";
+            //byteDirection = 0X01;
+
 
             ///A2测试
             iEOF = 500;
@@ -874,7 +877,8 @@ namespace HighSpeedMaglevSYS
             gbit.Clear(BackColor);
             gbit.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             //strLog="测试开始";
-            
+
+            DrawImageE(gbit);
             //文本信息
             gbit.DrawString(getLog(strLog), new Font("Arial", 10), Brushes.White, new PointF(54F, 54F));
 
@@ -888,6 +892,120 @@ namespace HighSpeedMaglevSYS
         }
 
 
+        private string _strTrainNum;
+        public string strTrainNum
+        {
+            get { return _strTrainNum; }
+            set
+            {
+                _strTrainNum = value;
+            }
+        }
+        private sbyte _byteDirection;
+        public sbyte byteDirection
+        {
+            get { return _byteDirection; }
+            set
+            {
+                _byteDirection = value;
+            }
+        }
+
+        private sbyte _byteGSMState;
+        public sbyte byteGSMState
+        {
+            get { return _byteGSMState; }
+            set
+            {
+                _byteGSMState = value;
+            }
+        }
+        /// <summary>
+        /// E绘图函数
+        /// </summary>
+        /// <param name="g"></param>
+        private void DrawImageE(Graphics g)
+        {
+
+            //E5 机控/人控
+            if (0x11 == bA1Mode || 0x12 == bA1Mode || 0x13 == bA1Mode)
+            {
+                g.DrawString("机控", new Font("Arial", 10), Brushes.White, new PointF(0, 84F));
+            }
+            else
+            {
+                g.DrawString("人控", new Font("Arial", 10), Brushes.White, new PointF(0, 84F));
+            }
+
+            //E1 备用系统状态
+            g.DrawString("C2正常", new Font("Arial", 10), Brushes.White, new PointF(0, 114F));
+
+            //E24
+            Point point1 = new Point(311, 57);
+            Point point2 = new Point(301, 77);
+            Point point3 = new Point(306, 77);
+            Point point4 = new Point(306, 107);
+            Point point5 = new Point(316, 107);
+            Point point6 = new Point(316, 77);
+            Point point7 = new Point(321, 77);
+
+            Point[] pE24 = { point1, point2, point3, point4, point5, point6,point7};
+
+            g.FillPolygon(Brushes.White, pE24);
+
+            //E25
+            Point point8 = new Point(311, 177);
+            Point point9 = new Point(301, 157);
+            Point point10 = new Point(306, 157);
+            Point point11 = new Point(306, 127);
+            Point point12 = new Point(316, 127);
+            Point point13 = new Point(316, 157);
+            Point point14 = new Point(321, 157);
+
+            Point[] pE25 = { point8, point9, point10, point11, point12, point13, point14 };
+
+            g.FillPolygon(Brushes.White, pE25);
+            /*
+            if (0x00 == byteDirection)
+            {
+                g.FillPolygon(Brushes.White, pE24);
+            }
+            else
+            {
+                g.FillPolygon(Brushes.White, pE25);
+            }
+             * */
+            
+
+            //E16a
+            g.DrawString("车次号：", new Font("Arial", 10), Brushes.White, new PointF(336, 120F));
+            g.DrawString(strTrainNum, new Font("Arial", 10), Brushes.White, new PointF(336, 150F));
+
+            //E16b
+
+            Pen penE16b = new Pen(Color.White);
+            penE16b.Width = 3;
+            g.DrawLine(penE16b, new PointF(383F, 117F),new PointF(388F,122F));
+            switch (byteGSMState)
+            {
+                case 0x00:
+                    break;
+                case 0x01:
+                    break;
+                case 0x02:
+                    break;
+                default:
+                    break;
+            }
+
+        }
+         
+
+        /// <summary>
+        /// 获取日志
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         private string getLog(string str)
         {
             string strRe="";
