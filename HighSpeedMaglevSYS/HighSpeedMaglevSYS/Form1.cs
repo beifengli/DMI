@@ -28,7 +28,7 @@ namespace HighSpeedMaglevSYS
 
             strTrainNum = "G1212";
             //byteDirection = 0X01;
-
+            byteGSMState = 0x02;
 
             ///A2测试
             iEOF = 500;
@@ -985,19 +985,34 @@ namespace HighSpeedMaglevSYS
 
             Pen penE16b = new Pen(Color.White);
             penE16b.Width = 3;
-            g.DrawLine(penE16b, new PointF(383F, 117F),new PointF(388F,122F));
+            g.DrawLine(penE16b, new PointF(451F, 117F),new PointF(455F,122F));
+            g.DrawLine(penE16b, new PointF(455F, 122F), new PointF(455F, 142F));
+            g.DrawLine(penE16b, new PointF(451F, 147F), new PointF(455F, 142F));
+
+            g.DrawLine(penE16b, new PointF(476F, 122F), new PointF(476F, 142F));
             switch (byteGSMState)
             {
+                    //未连接
                 case 0x00:
                     break;
+                    //正在连接
                 case 0x01:
+                    penE16b.Width = 5;
+                    penE16b.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+                    g.DrawLine(penE16b, new PointF(455F, 132F), new PointF(471F, 132F));
                     break;
+                    //已经连接
                 case 0x02:
+                    g.DrawLine(penE16b, new PointF(455F, 132F), new PointF(476F, 132F));
                     break;
                 default:
                     break;
             }
 
+            //E17 日期和时间
+            //DateTime dataE17=DateTime.Now.
+            g.DrawString(DateTime.Now.Date.ToShortDateString(), new Font("Arial", 10), Brushes.White, new PointF(510F, 120F));
+            g.DrawString(DateTime.Now.ToLongTimeString(),new Font("Arial", 10), Brushes.White, new PointF(510F, 135F));
         }
          
 
@@ -1032,9 +1047,65 @@ namespace HighSpeedMaglevSYS
         /// <param name="e"></param>
         private void F_Paint(object sender, PaintEventArgs e)
         {
+            Graphics g = e.Graphics;
+            g.Clear(BackColor);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
+            Bitmap bit = new Bitmap(62, 480);
+            Graphics gbit = Graphics.FromImage(bit);
+
+            gbit.Clear(BackColor);
+            gbit.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            //strLog="测试开始";
+
+            DrawImageF(gbit);
+            //文本信息
+            //gbit.DrawString(getLog(strLog), new Font("Arial", 10), Brushes.White, new PointF(54F, 54F));
+
+
+
+            g.DrawImage(bit, new Point(0, 0));
+
+            gbit.Dispose();
+            bit.Dispose();
+            g.Dispose();
         }
 
+
+        private void DrawImageF(Graphics g)
+        {
+            SolidBrush bru1=new SolidBrush(Color.FromArgb(10,15,80));
+            g.FillRectangle(bru1, new Rectangle(new Point(0, 0), new System.Drawing.Size(62, 60)));
+            g.DrawString("F1", new Font("Arial", 16), Brushes.White, new PointF(17F, 20));
+
+            SolidBrush bru2 = new SolidBrush(Color.FromArgb(10, 15, 80));
+            g.FillRectangle(bru2, new Rectangle(new Point(0, 60), new System.Drawing.Size(62, 60)));
+            g.DrawString("F2", new Font("Arial", 16), Brushes.White, new PointF(17F, 82));
+
+            SolidBrush bru3 = new SolidBrush(Color.FromArgb(10, 15, 80));
+            g.FillRectangle(bru3, new Rectangle(new Point(0, 120), new System.Drawing.Size(62, 60)));
+            g.DrawString("F3", new Font("Arial", 16), Brushes.White, new PointF(17F, 142));
+
+            SolidBrush bru4 = new SolidBrush(Color.FromArgb(10, 15, 80));
+            g.FillRectangle(bru4, new Rectangle(new Point(0, 180), new System.Drawing.Size(62, 60)));
+            g.DrawString("F4", new Font("Arial", 16), Brushes.White, new PointF(17F, 202));
+
+            SolidBrush bru5 = new SolidBrush(Color.FromArgb(10, 15, 80));
+            g.FillRectangle(bru5, new Rectangle(new Point(0, 240), new System.Drawing.Size(62, 60)));
+            g.DrawString("F5", new Font("Arial", 16), Brushes.White, new PointF(17F, 262));
+
+            SolidBrush bru6 = new SolidBrush(Color.FromArgb(10, 15, 80));
+            g.FillRectangle(bru6, new Rectangle(new Point(0, 300), new System.Drawing.Size(62, 60)));
+            g.DrawString("F6", new Font("Arial", 16), Brushes.White, new PointF(17F, 322));
+
+            SolidBrush bru7 = new SolidBrush(Color.FromArgb(10, 15, 80));
+            g.FillRectangle(bru7, new Rectangle(new Point(0, 360), new System.Drawing.Size(62, 60)));
+            g.DrawString("F7", new Font("Arial", 16), Brushes.White, new PointF(17F, 382));
+
+            SolidBrush bru8 = new SolidBrush(Color.FromArgb(10, 15, 80));
+            g.FillRectangle(bru8, new Rectangle(new Point(0, 420), new System.Drawing.Size(62, 60)));
+            g.DrawString("F8", new Font("Arial", 16), Brushes.White, new PointF(17F, 442));
+        }
         /// <summary>
         /// 单元测试
         /// </summary>
