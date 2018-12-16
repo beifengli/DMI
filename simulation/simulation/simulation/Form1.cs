@@ -28,7 +28,7 @@ namespace simulation
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(DG1.relavantSwitch.ToString());
+            T1 = new TRAIN(G1, "1001", true);
         }
 
         public SIGNAL X1, X2, X3, S1, S2, S4;
@@ -41,7 +41,7 @@ namespace simulation
             //A模式
             System.Windows.Forms.Timer t1 = new System.Windows.Forms.Timer();
             t1.Tick += new EventHandler(theoutA);
-            t1.Interval = 5000;
+            t1.Interval = 12000;
             t1.Enabled = true;
 
             System.Windows.Forms.Timer t2 = new System.Windows.Forms.Timer();
@@ -58,14 +58,34 @@ namespace simulation
 
         private void theoutA2(object source, EventArgs e)
         {
+            if(Convert.ToInt32(T1.iEOF) < 100)
+            {
+                return;
+            }
+
             if (Convert.ToInt32(T1.dbVtrain) < 200)
             {
-                T1.dbVtrain = Convert.ToString(Convert.ToInt32(T1.dbVtrain) + 2);
+                T1.iEOF = Convert.ToString(Convert.ToInt32(T1.iEOF) 
+                    - Math.Round(Convert.ToInt32(T1.dbVtrain) / 3.6 * 0.2 + 0.5 * 3 * 0.04, 0));
+                T1.dbVtrain = Convert.ToString(Convert.ToInt32(T1.dbVtrain) + 3);                
             }
             else if(Convert.ToInt32(T1.dbVtrain) < 400)
             {
+                T1.iEOF = Convert.ToString(Convert.ToInt32(T1.iEOF)
+                    - Math.Round(Convert.ToInt32(T1.dbVtrain) / 3.6 * 0.2 + 0.5 * 2 * 0.04, 0));
+                T1.dbVtrain = Convert.ToString(Convert.ToInt32(T1.dbVtrain) + 2);
+            }
+            else if (Convert.ToInt32(T1.dbVtrain) < 600)
+            {
+                T1.iEOF = Convert.ToString(Convert.ToInt32(T1.iEOF)
+                    - Math.Round(Convert.ToInt32(T1.dbVtrain) / 3.6 * 0.2 + 0.5 * 1 * 0.04, 0));
                 T1.dbVtrain = Convert.ToString(Convert.ToInt32(T1.dbVtrain) + 1);
             }
+            else
+            {
+                T1.iEOF = Convert.ToString(Convert.ToInt32(T1.iEOF) - 33);
+            }
+
             switch (T1.dbVtrain.Length)
             {
                 case 1: T1.dbVtrain = "000" + T1.dbVtrain; break;
@@ -73,6 +93,20 @@ namespace simulation
                 case 3: T1.dbVtrain = "0" + T1.dbVtrain; break;
                 default: break;
             }
+            switch (T1.iEOF.Length)
+            {
+                case 1: T1.iEOF = "000000000" + T1.iEOF; break;
+                case 2: T1.iEOF = "00000000" + T1.iEOF; break;
+                case 3: T1.iEOF = "0000000" + T1.iEOF; break;
+                case 4: T1.iEOF = "000000" + T1.iEOF; break;
+                case 5: T1.iEOF = "00000" + T1.iEOF; break;
+                case 6: T1.iEOF = "0000" + T1.iEOF; break;
+                case 7: T1.iEOF = "000" + T1.iEOF; break;
+                case 8: T1.iEOF = "00" + T1.iEOF; break;
+                case 9: T1.iEOF = "0" + T1.iEOF; break;
+                default: break;
+            }
+                        
             txtMsg.Text = "Train: " +
                 T1.number +
                 "\r\nbA1Mode: " +
@@ -88,7 +122,8 @@ namespace simulation
                 "\r\niEOF: " +
                 T1.iEOF;
 
-            string send = T1.bA1mode + T1.dbVtrain + T1.dbVperm + T1.dbVrelease + T1.dbVint + T1.iEOF;
+            string send = T1.number + T1.bA1mode + T1.dbVtrain + 
+                T1.dbVperm + T1.dbVrelease + T1.dbVint + T1.iEOF;
             //发消息
             try
             {
@@ -110,7 +145,10 @@ namespace simulation
             {
 
             }
-            //MessageBox.Show("");
+
+            Graphics g = this.CreateGraphics();
+            T1.currentLocation.X += 4;
+            T1.drawTrain(g);
         }
 
         private void buttonModeB_Click(object sender, EventArgs e)
@@ -132,7 +170,7 @@ namespace simulation
         private void theoutB(object source, EventArgs e)
         {
             string send = T1.bA1mode + T1.dbVtrain + T1.dbVperm + T1.dbVrelease + T1.dbVint + T1.iEOF;
-
+            
             //发消息
             try
             {
@@ -188,14 +226,15 @@ namespace simulation
             trackUpLeftInverse[5].X =  63; trackUpLeftInverse[5].Y = 0;
 
             Point[] trackUpRight = new Point[8];
-            trackUpRight[0].X = 240 -   0; trackUpRight[0].Y = 0;
-            trackUpRight[1].X = 240 -   0; trackUpRight[1].Y = 9;
-            trackUpRight[2].X = 240 -  58; trackUpRight[2].Y = 9;
-            trackUpRight[3].X = 240 - 120; trackUpRight[3].Y = 70;
-            trackUpRight[4].X = 240 - 120; trackUpRight[4].Y = 56;
-            trackUpRight[5].X = 240 -  72; trackUpRight[5].Y = 9;
-            trackUpRight[6].X = 240 - 240; trackUpRight[6].Y = 9;
-            trackUpRight[7].X = 240 - 240; trackUpRight[7].Y = 0;
+            trackUpRight[0].X = 240 - 240; trackUpRight[0].Y = 0;
+            trackUpRight[1].X = 240 -   0; trackUpRight[1].Y = 0;
+            trackUpRight[2].X = 240 -   0; trackUpRight[2].Y = 9;
+            trackUpRight[3].X = 240 -  58; trackUpRight[3].Y = 9;
+            trackUpRight[4].X = 240 - 120; trackUpRight[4].Y = 70;
+            trackUpRight[5].X = 240 - 120; trackUpRight[5].Y = 56;
+            trackUpRight[6].X = 240 -  72; trackUpRight[6].Y = 9;
+            trackUpRight[7].X = 240 - 240; trackUpRight[7].Y = 9;
+            
 
             Point[] trackUpRightInverse = new Point[6];
             trackUpRightInverse[0].X = 240 -   0; trackUpRightInverse[0].Y = 0;
@@ -206,14 +245,14 @@ namespace simulation
             trackUpRightInverse[5].X = 240 -  63; trackUpRightInverse[5].Y = 0;
 
             Point[] trackDownLeft = new Point[8];
-            trackDownLeft[0].X =   0; trackDownLeft[0].Y = 9 - 0;
-            trackDownLeft[1].X =   0; trackDownLeft[1].Y = 9 - 9;
-            trackDownLeft[2].X =  58; trackDownLeft[2].Y = 9 - 9;
-            trackDownLeft[3].X = 119; trackDownLeft[3].Y = 8 - 70;
-            trackDownLeft[4].X = 119; trackDownLeft[4].Y = 8 - 56;
-            trackDownLeft[5].X =  71; trackDownLeft[5].Y = 9 - 9;
-            trackDownLeft[6].X = 240; trackDownLeft[6].Y = 9 - 9;
-            trackDownLeft[7].X = 240; trackDownLeft[7].Y = 9 - 0;
+            trackDownLeft[0].X =   0; trackDownLeft[0].Y = 9 - 9;
+            trackDownLeft[1].X =  58; trackDownLeft[1].Y = 9 - 9;
+            trackDownLeft[2].X = 119; trackDownLeft[2].Y = 8 - 70;
+            trackDownLeft[3].X = 119; trackDownLeft[3].Y = 8 - 56;
+            trackDownLeft[4].X =  71; trackDownLeft[4].Y = 9 - 9;
+            trackDownLeft[5].X = 240; trackDownLeft[5].Y = 9 - 9;
+            trackDownLeft[6].X = 240; trackDownLeft[6].Y = 9 - 0;
+            trackDownLeft[7].X =   0; trackDownLeft[7].Y = 9 - 0;
 
             Point[] trackDownLeftInverse = new Point[6];
             trackDownLeftInverse[0].X =   0; trackDownLeftInverse[0].Y = 9 - 0;
@@ -224,14 +263,15 @@ namespace simulation
             trackDownLeftInverse[5].X =  62; trackDownLeftInverse[5].Y = 9 - 0;
             
             Point[] trackDownRight = new Point[8];
-            trackDownRight[0].X = 240 -   0; trackDownRight[0].Y = 9 - 0;
-            trackDownRight[1].X = 240 -   0; trackDownRight[1].Y = 9 - 9;
-            trackDownRight[2].X = 240 -  58; trackDownRight[2].Y = 9 - 9;
-            trackDownRight[3].X = 241 - 120; trackDownRight[3].Y = 8 - 70;
-            trackDownRight[4].X = 241 - 120; trackDownRight[4].Y = 8 - 56;
-            trackDownRight[5].X = 241 -  72; trackDownRight[5].Y = 9 - 9;
-            trackDownRight[6].X = 240 - 240; trackDownRight[6].Y = 9 - 9;
-            trackDownRight[7].X = 240 - 240; trackDownRight[7].Y = 9 - 0;
+            trackDownRight[0].X = 240 - 240; trackDownRight[0].Y = 9 - 9;
+            trackDownRight[1].X = 240 - 240; trackDownRight[1].Y = 9 - 0;
+            trackDownRight[2].X = 240 -   0; trackDownRight[2].Y = 9 - 0;
+            trackDownRight[3].X = 240 -   0; trackDownRight[3].Y = 9 - 9;
+            trackDownRight[4].X = 240 -  58; trackDownRight[4].Y = 9 - 9;
+            trackDownRight[5].X = 241 - 120; trackDownRight[5].Y = 8 - 70;
+            trackDownRight[6].X = 241 - 120; trackDownRight[6].Y = 8 - 56;
+            trackDownRight[7].X = 241 -  72; trackDownRight[7].Y = 9 - 9;
+
 
             Point[] trackDownRightInverse = new Point[6];
             trackDownRightInverse[0].X = 240 -   0; trackDownRightInverse[0].Y = 9 - 0;
@@ -410,43 +450,13 @@ namespace simulation
             S2.drawSignal(g);
             S4.drawSignal(g);
 
-            if(T1 != null)
-                T1.drawTrain(g);
-        }
-        private void FormTrack_Paint()   //重画函数
-        {
-            Graphics g = this.CreateGraphics();
-            G1.drawTrack(g);
-            G2.drawTrack(g);
-            DG1.drawTrack(g);
-            DG2.drawTrack(g);
-            DG3.drawTrack(g);
-            DG4.drawTrack(g);
-            G3.drawTrack(g);
-            G4.drawTrack(g);
-            G5.drawTrack(g);
-            G6.drawTrack(g);
-            G7.drawTrack(g);
-            G8.drawTrack(g);
-            G9.drawTrack(g);
-            G10.drawTrack(g);
-            P1.drawPlatform(g);
-            P2.drawPlatform(g);
-            P3.drawPlatform(g);
-            P4.drawPlatform(g);
-            SW1.drawSwitch(g);
-            SW2.drawSwitch(g);
-            SW3.drawSwitch(g);
-            SW4.drawSwitch(g);
-            X1.drawSignal(g);
-            X2.drawSignal(g);
-            X3.drawSignal(g);
-            S1.drawSignal(g);
-            S2.drawSignal(g);
-            S4.drawSignal(g);
-
             if (T1 != null)
-                T1.drawTrain(g);
+            {
+                if (T1.currentTrack != null)
+                {
+                    T1.drawTrain(g);
+                }
+            }
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -818,6 +828,8 @@ public class TRAIN
     public Label window;
     public string number;
     public bool isHeadToRight;
+    public Point currentLocation;
+    public Point[] head;
 
     public string bA1mode;
     public string dbVtrain;
@@ -831,6 +843,14 @@ public class TRAIN
         currentTrack = currentTrack1;
         number = number1;
         isHeadToRight = isHeadToRight1;
+        currentLocation.X = currentTrack.outline[0].X;
+        currentLocation.Y = currentTrack.outline[0].Y;
+        head = new Point[5];
+        head[0].X = 0; head[0].Y = 0;
+        head[1].X = 0; head[1].Y = 9;
+        head[2].X = 15; head[2].Y = 9;
+        head[3].X = 20; head[3].Y = 5;
+        head[4].X = 15; head[4].Y = 0;
 
         currentTrack.isOccupied = true;
         currentTrack.labelWindow.Text = number;
@@ -846,16 +866,28 @@ public class TRAIN
         currentTrack.labelWindow.Visible = true;
 
         bA1mode = "0011";
-        dbVtrain = "0002";
-        dbVperm = "0003";
-        dbVrelease = "0004";
-        dbVint = "0005";
-        iEOF = "0000000006";
+        dbVtrain = "0000";
+        dbVperm = "0610";
+        dbVrelease = "0000";
+        dbVint = "0620";
+        iEOF = "0000014000";
     }
 
     public void drawTrain(Graphics g)
     {
+        if(currentTrack == null)
+        {
+            return;
+        }
         currentTrack.drawTrack(g);
+        //currentLocation = currentTrack.outline[0];
+        Point[] p = new Point[5];
+        for(int i=0; i<5; i++)
+        {
+            p[i].X = head[i].X + currentLocation.X;
+            p[i].Y = head[i].Y + currentLocation.Y;
+        }
+        g.FillPolygon(Brushes.Pink, p);
     }
 
     public void move()

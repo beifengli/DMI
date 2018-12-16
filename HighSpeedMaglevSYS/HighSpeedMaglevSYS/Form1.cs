@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -52,8 +53,8 @@ namespace HighSpeedMaglevSYS
 
         //A1
         //控制模式
-        private byte _bA1Mode;
-        public byte bA1Mode
+        private int _bA1Mode;
+        public int bA1Mode
         {
             get { return _bA1Mode; }
             set {
@@ -264,12 +265,13 @@ namespace HighSpeedMaglevSYS
         /// <param name="s"></param>
         private void setTrainData(string s)
         {
-            bA1Mode = byte.Parse(s.Substring(0, 4));
-            dbVtrain = double.Parse(s.Substring(4, 4));
-            dbVperm = double.Parse(s.Substring(8, 4));
-            dbVrelease = double.Parse(s.Substring(12,4));
-            dbVint = double.Parse(s.Substring(16, 4));
-            iEOF = long.Parse(s.Substring(20, 10));
+            strTrainNum = "G"+s.Substring(0, 4);
+            bA1Mode = int.Parse(s.Substring(4, 4));
+            dbVtrain = double.Parse(s.Substring(8, 4));
+            dbVperm = double.Parse(s.Substring(12, 4));
+            dbVrelease = double.Parse(s.Substring(16,4));
+            dbVint = double.Parse(s.Substring(20, 4));
+            iEOF = long.Parse(s.Substring(24, 10));
 
         }
 
@@ -406,7 +408,7 @@ namespace HighSpeedMaglevSYS
             Brush A1Brush = Brushes.White;
             switch (bA1Mode)
             {
-                case 10://FS CSM
+                case 11://FS CSM
                     if (dbVtrain <= dbVperm)
                         A1Brush = SigBrush.GrayBrush;
                     else
@@ -422,7 +424,7 @@ namespace HighSpeedMaglevSYS
                         }
                     }
                     break;
-                case 11://FS TSM
+                case 12://FS TSM
                     if (dbVtrain <= dbVperm)
                         A1Brush = SigBrush.YellowBrush;
                     else
@@ -560,7 +562,9 @@ namespace HighSpeedMaglevSYS
         private void drawFrame(Graphics g)
         {
             // Create pen.
-            Pen blackPen = new Pen(Color.White, 9);
+            Pen Pen2 = new Pen(Color.DimGray, 9);
+            Pen Pen1 = new Pen(Color.LightGray, 9);
+            Pen Pen3 = new Pen(Color.Yellow, 9);
 
             // Create coordinates of rectangle to bound ellipse.
             float x = 10.0F;
@@ -570,9 +574,22 @@ namespace HighSpeedMaglevSYS
 
             // Create start and sweep angles on ellipse.
             float startAngle = 135.0F;
-            float sweepAngle = 0.36F*(float)dbVtrain;
+            float sweepAngle1 = 0.36F * (float)dbVperm;
+            float sweepAngle2 = 0.36F * (float)_dbVtrain;
 
-            g.DrawArc(blackPen, x, y, width, height, startAngle, sweepAngle);
+            if (11 == bA1Mode)
+            {
+                g.DrawArc(Pen1, x, y, width, height, startAngle, sweepAngle1);
+                g.DrawArc(Pen2, x, y, width, height, startAngle, sweepAngle2);
+            }
+            else if(12 == bA1Mode)
+            {
+                g.DrawArc(Pen3, x, y, width, height, startAngle, sweepAngle1);
+                g.DrawArc(Pen2, x, y, width, height, startAngle, sweepAngle2);
+            }
+            //g.DrawArc(Pen2, x, y, width, height, startAngle, sweepAngle2);
+            //g.DrawArc(blackPen,g.po
+            
         }
 
         /// <summary>
