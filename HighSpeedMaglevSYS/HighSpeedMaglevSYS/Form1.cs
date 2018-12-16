@@ -21,10 +21,10 @@ namespace HighSpeedMaglevSYS
         {
             ///A1测试
             bA1Mode = 0x11;  //FS  CSM
-            dbVperm = 80;
-            dbVint = 85;
+            dbVperm = 610;
+            dbVint = 620;
             dbVrelease = 30;
-            dbVtrain = 75;
+            dbVtrain = 550;
 
             strTrainNum = "G1212";
             //byteDirection = 0X01;
@@ -217,7 +217,7 @@ namespace HighSpeedMaglevSYS
                     string sTemp2 = sTemp1.Substring(0, sTemp1.Length - 8);
                     //string[] strResule=sTemp.Split("11111111",StringSplitOptions.None);
 
-                    dbVtrain = int.Parse(sTemp2);
+                    //dbVtrain = int.Parse(sTemp2);
                     ShowMsg(socketSend.RemoteEndPoint + ":" + sTemp2);
                 }
                 else if (buffer[0] == 1)
@@ -540,7 +540,7 @@ namespace HighSpeedMaglevSYS
 
             // Create start and sweep angles on ellipse.
             float startAngle = 135.0F;
-            float sweepAngle = 270.0F;
+            float sweepAngle = 0.36F*(float)dbVtrain;
 
             g.DrawArc(blackPen, x, y, width, height, startAngle, sweepAngle);
         }
@@ -554,7 +554,7 @@ namespace HighSpeedMaglevSYS
 
             int _diameter = 260;
             Color _frameColor = Color.White;
-            float _maxValue = 450;
+            float _maxValue = 750;
             //刻度
             int cerX = _diameter / 2+10;
             int cerY = _diameter / 2+10;
@@ -651,7 +651,7 @@ namespace HighSpeedMaglevSYS
 
             int _diameter = 260;
             Color _frameColor = Color.White;
-            float _maxValue = 450;
+            float _maxValue = 750;
             //刻度
             int cerX = _diameter / 2 + 10;
             int cerY = _diameter / 2 + 10;
@@ -769,7 +769,7 @@ namespace HighSpeedMaglevSYS
 
 
             int _diameter = 260;
-            float _maxValue=450;
+            float _maxValue=750;
             Color _pinColor = Color.White;
             double _PinLen = 100;
             double NxPinLen = 50;

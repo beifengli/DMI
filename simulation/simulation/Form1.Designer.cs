@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1G = new System.Windows.Forms.Label();
             this.label1DG = new System.Windows.Forms.Label();
             this.label2G = new System.Windows.Forms.Label();
@@ -62,6 +63,24 @@
             this.txtLog = new System.Windows.Forms.TextBox();
             this.txtPort = new System.Windows.Forms.TextBox();
             this.ip = new System.Windows.Forms.TextBox();
+            this.window2G = new System.Windows.Forms.Label();
+            this.window1G = new System.Windows.Forms.Label();
+            this.window2DG = new System.Windows.Forms.Label();
+            this.window1DG = new System.Windows.Forms.Label();
+            this.window3DG = new System.Windows.Forms.Label();
+            this.window4DG = new System.Windows.Forms.Label();
+            this.window3G = new System.Windows.Forms.Label();
+            this.window4G = new System.Windows.Forms.Label();
+            this.window6G = new System.Windows.Forms.Label();
+            this.window5G = new System.Windows.Forms.Label();
+            this.window8G = new System.Windows.Forms.Label();
+            this.window7G = new System.Windows.Forms.Label();
+            this.window10G = new System.Windows.Forms.Label();
+            this.window9G = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.buttonModeA = new System.Windows.Forms.Button();
+            this.buttonModeB = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1G
@@ -371,7 +390,179 @@
             this.ip.Name = "ip";
             this.ip.Size = new System.Drawing.Size(100, 26);
             this.ip.TabIndex = 27;
-            this.ip.Text = "192.168.0.102";
+            this.ip.Text = "127.0.0.1";
+            // 
+            // window2G
+            // 
+            this.window2G.AutoSize = true;
+            this.window2G.Location = new System.Drawing.Point(133, 335);
+            this.window2G.Name = "window2G";
+            this.window2G.Size = new System.Drawing.Size(51, 20);
+            this.window2G.TabIndex = 34;
+            this.window2G.Text = "win2G";
+            this.window2G.Visible = false;
+            // 
+            // window1G
+            // 
+            this.window1G.AutoSize = true;
+            this.window1G.Location = new System.Drawing.Point(133, 495);
+            this.window1G.Name = "window1G";
+            this.window1G.Size = new System.Drawing.Size(51, 20);
+            this.window1G.TabIndex = 35;
+            this.window1G.Text = "win1G";
+            this.window1G.Visible = false;
+            // 
+            // window2DG
+            // 
+            this.window2DG.AutoSize = true;
+            this.window2DG.Location = new System.Drawing.Point(530, 335);
+            this.window2DG.Name = "window2DG";
+            this.window2DG.Size = new System.Drawing.Size(62, 20);
+            this.window2DG.TabIndex = 36;
+            this.window2DG.Text = "win2DG";
+            this.window2DG.Visible = false;
+            // 
+            // window1DG
+            // 
+            this.window1DG.AutoSize = true;
+            this.window1DG.Location = new System.Drawing.Point(376, 495);
+            this.window1DG.Name = "window1DG";
+            this.window1DG.Size = new System.Drawing.Size(62, 20);
+            this.window1DG.TabIndex = 37;
+            this.window1DG.Text = "win1DG";
+            this.window1DG.Visible = false;
+            // 
+            // window3DG
+            // 
+            this.window3DG.AutoSize = true;
+            this.window3DG.Location = new System.Drawing.Point(770, 495);
+            this.window3DG.Name = "window3DG";
+            this.window3DG.Size = new System.Drawing.Size(62, 20);
+            this.window3DG.TabIndex = 38;
+            this.window3DG.Text = "win3DG";
+            this.window3DG.Visible = false;
+            // 
+            // window4DG
+            // 
+            this.window4DG.AutoSize = true;
+            this.window4DG.Location = new System.Drawing.Point(618, 335);
+            this.window4DG.Name = "window4DG";
+            this.window4DG.Size = new System.Drawing.Size(62, 20);
+            this.window4DG.TabIndex = 39;
+            this.window4DG.Text = "win4DG";
+            this.window4DG.Visible = false;
+            // 
+            // window3G
+            // 
+            this.window3G.AutoSize = true;
+            this.window3G.Location = new System.Drawing.Point(983, 495);
+            this.window3G.Name = "window3G";
+            this.window3G.Size = new System.Drawing.Size(51, 20);
+            this.window3G.TabIndex = 40;
+            this.window3G.Text = "win3G";
+            this.window3G.Visible = false;
+            // 
+            // window4G
+            // 
+            this.window4G.AutoSize = true;
+            this.window4G.Location = new System.Drawing.Point(883, 335);
+            this.window4G.Name = "window4G";
+            this.window4G.Size = new System.Drawing.Size(51, 20);
+            this.window4G.TabIndex = 41;
+            this.window4G.Text = "win4G";
+            this.window4G.Visible = false;
+            // 
+            // window6G
+            // 
+            this.window6G.AutoSize = true;
+            this.window6G.Location = new System.Drawing.Point(1103, 335);
+            this.window6G.Name = "window6G";
+            this.window6G.Size = new System.Drawing.Size(51, 20);
+            this.window6G.TabIndex = 42;
+            this.window6G.Text = "win6G";
+            this.window6G.Visible = false;
+            // 
+            // window5G
+            // 
+            this.window5G.AutoSize = true;
+            this.window5G.Location = new System.Drawing.Point(1223, 495);
+            this.window5G.Name = "window5G";
+            this.window5G.Size = new System.Drawing.Size(51, 20);
+            this.window5G.TabIndex = 43;
+            this.window5G.Text = "win5G";
+            this.window5G.Visible = false;
+            // 
+            // window8G
+            // 
+            this.window8G.AutoSize = true;
+            this.window8G.Location = new System.Drawing.Point(1368, 335);
+            this.window8G.Name = "window8G";
+            this.window8G.Size = new System.Drawing.Size(51, 20);
+            this.window8G.TabIndex = 44;
+            this.window8G.Text = "win8G";
+            this.window8G.Visible = false;
+            // 
+            // window7G
+            // 
+            this.window7G.AutoSize = true;
+            this.window7G.Location = new System.Drawing.Point(1463, 495);
+            this.window7G.Name = "window7G";
+            this.window7G.Size = new System.Drawing.Size(51, 20);
+            this.window7G.TabIndex = 45;
+            this.window7G.Text = "win7G";
+            this.window7G.Visible = false;
+            // 
+            // window10G
+            // 
+            this.window10G.AutoSize = true;
+            this.window10G.Location = new System.Drawing.Point(1603, 335);
+            this.window10G.Name = "window10G";
+            this.window10G.Size = new System.Drawing.Size(59, 20);
+            this.window10G.TabIndex = 46;
+            this.window10G.Text = "win10G";
+            this.window10G.Visible = false;
+            // 
+            // window9G
+            // 
+            this.window9G.AutoSize = true;
+            this.window9G.Location = new System.Drawing.Point(1703, 495);
+            this.window9G.Name = "window9G";
+            this.window9G.Size = new System.Drawing.Size(51, 20);
+            this.window9G.TabIndex = 47;
+            this.window9G.Text = "win9G";
+            this.window9G.Visible = false;
+            // 
+            // buttonModeA
+            // 
+            this.buttonModeA.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.buttonModeA.Location = new System.Drawing.Point(1258, 748);
+            this.buttonModeA.Name = "buttonModeA";
+            this.buttonModeA.Size = new System.Drawing.Size(75, 28);
+            this.buttonModeA.TabIndex = 48;
+            this.buttonModeA.Text = "A模式";
+            this.buttonModeA.UseVisualStyleBackColor = true;
+            this.buttonModeA.Click += new System.EventHandler(this.buttonModeA_Click);
+            // 
+            // buttonModeB
+            // 
+            this.buttonModeB.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.buttonModeB.Location = new System.Drawing.Point(1344, 748);
+            this.buttonModeB.Name = "buttonModeB";
+            this.buttonModeB.Size = new System.Drawing.Size(75, 28);
+            this.buttonModeB.TabIndex = 49;
+            this.buttonModeB.Text = "B模式";
+            this.buttonModeB.UseVisualStyleBackColor = true;
+            this.buttonModeB.Click += new System.EventHandler(this.buttonModeB_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(685, 124);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 50;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FormTrack
             // 
@@ -379,6 +570,23 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1904, 1042);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonModeB);
+            this.Controls.Add(this.buttonModeA);
+            this.Controls.Add(this.window9G);
+            this.Controls.Add(this.window10G);
+            this.Controls.Add(this.window7G);
+            this.Controls.Add(this.window8G);
+            this.Controls.Add(this.window5G);
+            this.Controls.Add(this.window6G);
+            this.Controls.Add(this.window4G);
+            this.Controls.Add(this.window3G);
+            this.Controls.Add(this.window4DG);
+            this.Controls.Add(this.window3DG);
+            this.Controls.Add(this.window1DG);
+            this.Controls.Add(this.window2DG);
+            this.Controls.Add(this.window1G);
+            this.Controls.Add(this.window2G);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.txtMsg);
             this.Controls.Add(this.buttonSend);
@@ -461,6 +669,24 @@
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.TextBox ip;
+        private System.Windows.Forms.Label window2G;
+        private System.Windows.Forms.Label window1G;
+        private System.Windows.Forms.Label window2DG;
+        private System.Windows.Forms.Label window1DG;
+        private System.Windows.Forms.Label window3DG;
+        private System.Windows.Forms.Label window4DG;
+        private System.Windows.Forms.Label window3G;
+        private System.Windows.Forms.Label window4G;
+        private System.Windows.Forms.Label window6G;
+        private System.Windows.Forms.Label window5G;
+        private System.Windows.Forms.Label window8G;
+        private System.Windows.Forms.Label window7G;
+        private System.Windows.Forms.Label window10G;
+        private System.Windows.Forms.Label window9G;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button buttonModeA;
+        private System.Windows.Forms.Button buttonModeB;
+        private System.Windows.Forms.Button button1;
     }
 }
 
