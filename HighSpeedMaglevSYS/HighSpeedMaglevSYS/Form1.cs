@@ -20,18 +20,18 @@ namespace HighSpeedMaglevSYS
         public Form1()
         {
             ///A1测试
-            bA1Mode = 0x11;  //FS  CSM
-            dbVperm = 610;
-            dbVint = 620;
-            dbVrelease = 30;
-            dbVtrain = 550;
+            bA1Mode = 11;  //FS  CSM
+            dbVperm = 0;
+            dbVint = 0;
+            dbVrelease = 0;
+            dbVtrain = 0;
 
             strTrainNum = "G1212";
             //byteDirection = 0X01;
-            byteGSMState = 0x02;
+            byteGSMState = 02;
 
             ///A2测试
-            iEOF = 500;
+            iEOF = 0;
             //注册自定义事件
             TimerUpdate += new event_Handle(changedEvent1);
             //A1EventHandler A1Hand = new A1EventHandler(this.changedEvent1);
@@ -118,7 +118,21 @@ namespace HighSpeedMaglevSYS
 
 
         ///A2
-        public int iEOF;
+        private long _iEOF;
+        public long iEOF
+        {
+            get { return _iEOF; }
+            set
+            {
+                _iEOF = value;
+                if (null != this.A)
+                {
+                    this.A.Invalidate();
+                }
+            }
+        }
+
+
         public delegate void event_Handle(object sender, EventArgs e);  // 自定义事件的参数类型
         public event event_Handle TimerUpdate;
 
@@ -218,7 +232,9 @@ namespace HighSpeedMaglevSYS
                     //string[] strResule=sTemp.Split("11111111",StringSplitOptions.None);
 
                     //dbVtrain = int.Parse(sTemp2);
-                    ShowMsg(socketSend.RemoteEndPoint + ":" + sTemp2);
+                    setTrainData(sTemp2);
+                    //ShowMsg(socketSend.RemoteEndPoint + ":" + sTemp2);
+                    //ShowMsg(":" + sTemp2);
                 }
                 else if (buffer[0] == 1)
                 {
@@ -242,6 +258,20 @@ namespace HighSpeedMaglevSYS
             }
         }
 
+        /// <summary>
+        /// 报文解码
+        /// </summary>
+        /// <param name="s"></param>
+        private void setTrainData(string s)
+        {
+            bA1Mode = byte.Parse(s.Substring(0, 4));
+            dbVtrain = double.Parse(s.Substring(4, 4));
+            dbVperm = double.Parse(s.Substring(8, 4));
+            dbVrelease = double.Parse(s.Substring(12,4));
+            dbVint = double.Parse(s.Substring(16, 4));
+            iEOF = long.Parse(s.Substring(20, 10));
+
+        }
 
         public static string uncode(string s)
         {
@@ -307,11 +337,11 @@ namespace HighSpeedMaglevSYS
             //如果FS 中的TSM RSM模式，显示目标距离，其余不显示
             Brush a2Brush = Brushes.White;
             double dbEOFlength = 0;
-            if (0x11 == bA1Mode || 0x12 == bA1Mode)
+            if (11 == bA1Mode || 12 == bA1Mode)
             {
-                if (1000 >= iEOF)
+                if (10000 >= iEOF)
                 {
-                    dbEOFlength = (iEOF / 1000.0) * 172;
+                    dbEOFlength = (iEOF / 10000.0) * 172;
                 }
                 else
                 {
@@ -376,7 +406,7 @@ namespace HighSpeedMaglevSYS
             Brush A1Brush = Brushes.White;
             switch (bA1Mode)
             {
-                case 0x10://FS CSM
+                case 10://FS CSM
                     if (dbVtrain <= dbVperm)
                         A1Brush = SigBrush.GrayBrush;
                     else
@@ -392,7 +422,7 @@ namespace HighSpeedMaglevSYS
                         }
                     }
                     break;
-                case 0x11://FS TSM
+                case 11://FS TSM
                     if (dbVtrain <= dbVperm)
                         A1Brush = SigBrush.YellowBrush;
                     else
@@ -408,7 +438,7 @@ namespace HighSpeedMaglevSYS
                         }
                     }
                     break;
-                case 0x13://FS RSM
+                case 13://FS RSM
                     if (dbVtrain <= dbVrelease)
                         A1Brush = SigBrush.YellowBrush;
                     else
@@ -928,7 +958,7 @@ namespace HighSpeedMaglevSYS
         {
 
             //E5 机控/人控
-            if (0x11 == bA1Mode || 0x12 == bA1Mode || 0x13 == bA1Mode)
+            if (11 == bA1Mode || 12 == bA1Mode || 13 == bA1Mode)
             {
                 g.DrawString("机控", new Font("Arial", 10), Brushes.White, new PointF(0, 84F));
             }
@@ -993,16 +1023,16 @@ namespace HighSpeedMaglevSYS
             switch (byteGSMState)
             {
                     //未连接
-                case 0x00:
+                case 00:
                     break;
                     //正在连接
-                case 0x01:
+                case 01:
                     penE16b.Width = 5;
                     penE16b.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
                     g.DrawLine(penE16b, new PointF(455F, 132F), new PointF(471F, 132F));
                     break;
                     //已经连接
-                case 0x02:
+                case 02:
                     g.DrawLine(penE16b, new PointF(455F, 132F), new PointF(476F, 132F));
                     break;
                 default:

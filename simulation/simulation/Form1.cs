@@ -845,7 +845,7 @@ public class TRAIN
         currentTrack.labelWindow.ForeColor = Color.Chartreuse;
         currentTrack.labelWindow.Visible = true;
 
-        bA1mode = "0001";
+        bA1mode = "0011";
         dbVtrain = "0002";
         dbVperm = "0003";
         dbVrelease = "0004";
